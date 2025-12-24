@@ -21,8 +21,11 @@ function App() {
   }, [])
 
   const [isUnlocked, setIsUnlocked] = useState(false)
+  const [isMessageUnlocked, setIsMessageUnlocked] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
+  const [messagePasswordInput, setMessagePasswordInput] = useState('')
   const [error, setError] = useState(false)
+  const [messageError, setMessageError] = useState(false)
 
   const handleUnlock = (e) => {
     e.preventDefault()
@@ -31,6 +34,16 @@ function App() {
     } else {
       setError(true)
       setPasswordInput('')
+    }
+  }
+
+  const handleMessageUnlock = (e) => {
+    e.preventDefault()
+    if (messagePasswordInput === 'njhazra1') {
+      setIsMessageUnlocked(true)
+    } else {
+      setMessageError(true)
+      setMessagePasswordInput('')
     }
   }
 
@@ -119,19 +132,38 @@ function App() {
         >
           <div className="ribbon">🎂</div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            <p>
-              Happy Birthday Zeynep! <br /><br />
-              You are truly the sweetest person I have ever met! Wishing you a wonderful life and a bright future ahead. I hope you achieve all your goals and everything you dream of.
-            </p>
-            <p style={{ fontFamily: 'var(--font-script)', fontSize: '2rem', marginTop: '1rem' }}>
-              Yours, <br /> Navjit
-            </p>
-          </motion.div>
+          {!isMessageUnlocked ? (
+            <div className="lock-screen">
+              <p className="lock-text">Enter the secret password to read your message...</p>
+              <form onSubmit={handleMessageUnlock} className="password-form">
+                <input
+                  type="password"
+                  value={messagePasswordInput}
+                  onChange={(e) => {
+                    setMessagePasswordInput(e.target.value)
+                    setMessageError(false)
+                  }}
+                  placeholder="Password..."
+                  className={messageError ? 'input-error' : ''}
+                />
+                <button type="submit">Unlock 🗝️</button>
+              </form>
+            </div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, filter: 'blur(0px)' }}
+              transition={{ duration: 0.8 }}
+            >
+              <p>
+                Happy Birthday Zeynep! <br /><br />
+                You are truly the sweetest person I have ever met! Wishing you a wonderful life and a bright future ahead. I hope you achieve all your goals and everything you dream of.
+              </p>
+              <p style={{ fontFamily: 'var(--font-script)', fontSize: '2rem', marginTop: '1rem' }}>
+                Yours, <br /> Navjit
+              </p>
+            </motion.div>
+          )}
         </motion.div>
 
       </div>
