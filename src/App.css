@@ -188,23 +188,33 @@
 
 /* Password Form Styles */
 .lock-page {
-  height: 100vh;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .lock-container {
-  background: rgba(255, 251, 240, 0.9);
-  padding: 3rem;
-  border-radius: 20px;
+  background: rgba(255, 251, 240, 0.95);
+  /* Slightly more opaque */
+  padding: 2.5rem 2rem;
+  border-radius: 24px;
+  /* Rounder corners like iOS */
   border: 2px solid var(--color-pink-deep);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
+  width: 100%;
+  max-width: 350px;
+  /* Good width for phones */
+  backdrop-filter: blur(10px);
+  /* Glassmorphism */
 }
 
 .lock-container h1 {
