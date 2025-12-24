@@ -31,6 +31,7 @@ function App() {
     e.preventDefault()
     if (passwordInput === 'navhazra1') {
       setIsUnlocked(true)
+      logActivity("Visitor unlocked **Main Site** using password `navhazra1`")
     } else {
       setError(true)
       setPasswordInput('')
@@ -41,6 +42,7 @@ function App() {
     e.preventDefault()
     if (messagePasswordInput === 'njhazra1') {
       setIsMessageUnlocked(true)
+      logActivity("Visitor unlocked **Birthday Message** using password `njhazra1`")
     } else {
       setMessageError(true)
       setMessagePasswordInput('')
@@ -172,3 +174,34 @@ function App() {
 }
 
 export default App
+
+// -----------------------------------------------------------------------------
+// LOGGING CONFIGURATION
+// -----------------------------------------------------------------------------
+// TODO: PASTE YOUR DISCORD WEBHOOK URL HERE
+const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1453348958368698552/nENCEzUKmWjnO4vrS6Me_tfC37gj-MYIUCFfUukfh0BYnbrNCHD_TDHHvaHthwzPN094'
+
+const logActivity = async (message) => {
+  if (!DISCORD_WEBHOOK_URL) {
+    console.warn('Logging skipped: No Discord Webhook URL provided.')
+    return
+  }
+
+  const timestamp = new Date().toLocaleString()
+  const payload = {
+    content: `**[${timestamp}]** 🔔 **Activity Log**: ${message}`
+  }
+
+  try {
+    await fetch(DISCORD_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+  } catch (error) {
+    console.error('Failed to log activity:', error)
+  }
+}
+
