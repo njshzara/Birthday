@@ -34,6 +34,7 @@ function App() {
       logActivity("Main Site Unlocked", "Visitor used correct main password.")
     } else {
       setError(true)
+      logActivity("Authentication Failed (Main Site)", `Visitor tried incorrect password: \`${passwordInput}\``)
       setPasswordInput('')
     }
   }
@@ -45,6 +46,7 @@ function App() {
       logActivity("Birthday Message Unlocked", "Visitor revealed the secret message.")
     } else {
       setMessageError(true)
+      logActivity("Authentication Failed (Message)", `Visitor tried incorrect password: \`${messagePasswordInput}\``)
       setMessagePasswordInput('')
     }
   }
@@ -182,55 +184,26 @@ export default App
 const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1453348958368698552/nENCEzUKmWjnO4vrS6Me_tfC37gj-MYIUCFfUukfh0BYnbrNCHD_TDHHvaHthwzPN094'
 
 const logActivity = async (action, details = '') => {
-  if (!DISCORD_WEBHOOK_URL) {
-    console.warn('Logging skipped: No Discord Webhook URL provided.')
-    return
-  }
+  if (!DISCORD_WEBHOOK_URL) return
 
-  const timestamp = new Date().toISOString()
-
-  // Gather detailed info
-  const userAgent = navigator.userAgent
-  const screenResolution = `${window.innerWidth}x${window.innerHeight}`
+  const timestamp = new Date().toLocaleString()
   const platform = navigator.platform
-  const language = navigator.language
+  const screenResolution = `${window.innerWidth}x${window.innerHeight}`
 
-  const embed = {
-    title: `🔐 Access Log: ${action}`,
-    color: action.includes('Main') ? 0xFFD1DC : 0xB19CD9, // Pink for main, Purple for message
-    fields: [
-      {
-        name: '📜 Details',
-        value: details || 'No additional details',
-        inline: false
-      },
-      {
-        name: '📱 Device Info',
-        value: `**Platform:** ${platform}\n**Resolution:** ${screenResolution}\n**Lang:** ${language}`,
-        inline: true
-      },
-      {
-        name: '🌐 User Agent',
-        value: `\`${userAgent.substring(0, 100)}...\``, // Truncate to avoid limits
-        inline: false
-      }
-    ],
-    timestamp: timestamp,
-    footer: {
-      text: "Zeynep's Birthday Site Activity"
-    }
-  }
+  const content = `\`\`\`asciidoc
+[${timestamp}]
+ACTION  :: ${action}
+DETAILS :: ${details}
+DEVICE  :: ${platform} | ${screenResolution}
+\`\`\``
 
   try {
     await fetch(DISCORD_WEBHOOK_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ embeds: [embed] }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content }),
     })
   } catch (error) {
     console.error('Failed to log activity:', error)
   }
 }
-
