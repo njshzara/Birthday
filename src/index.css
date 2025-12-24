@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --color-pink-soft: #fff0f5;  /* Lavender Blush */
+  --color-pink-deep: #ffb7c5;  /* Cherry Blossom */
+  --color-gold: #d4af37;
+  --color-cream: #fffbf0;
+  --color-text-main: #5d4037;
+  --color-text-accent: #d4af37;
+  
+  --font-heading: 'Playfair Display', serif;
+  --font-script: 'Dancing Script', cursive;
+  --font-body: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-pink-soft);
+  background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 20%),
+                    radial-gradient(circle at 90% 80%, rgba(255, 183, 197, 0.2) 0%, transparent 20%);
+  color: var(--color-text-main);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-pink-soft); 
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-pink-deep); 
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff9eb5; 
+}
