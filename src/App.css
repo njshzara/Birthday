@@ -187,6 +187,32 @@
 }
 
 /* Password Form Styles */
+.lock-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lock-container {
+  background: rgba(255, 251, 240, 0.9);
+  padding: 3rem;
+  border-radius: 20px;
+  border: 2px solid var(--color-pink-deep);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lock-container h1 {
+  font-family: var(--font-heading);
+  color: var(--color-text-main);
+  margin: 0;
+}
+
 .lock-screen {
   display: flex;
   flex-direction: column;

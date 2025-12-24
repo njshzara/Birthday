@@ -26,12 +26,44 @@ function App() {
 
   const handleUnlock = (e) => {
     e.preventDefault()
-    if (passwordInput === 'njhazra1') {
+    if (passwordInput === 'navhazra1') {
       setIsUnlocked(true)
     } else {
       setError(true)
       setPasswordInput('')
     }
+  }
+
+  if (!isUnlocked) {
+    return (
+      <div className="main-wrapper lock-page">
+        <motion.div
+          className="lock-container"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="ribbon">🎀</div>
+          <h1>Welcome</h1>
+          <p className="lock-text">Please enter the password to view this special page.</p>
+
+          <form onSubmit={handleUnlock} className="password-form">
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={(e) => {
+                setPasswordInput(e.target.value)
+                setError(false)
+              }}
+              placeholder="Password..."
+              className={error ? 'input-error' : ''}
+              autoFocus
+            />
+            <button type="submit">Enter ✨</button>
+          </form>
+        </motion.div>
+      </div>
+    )
   }
 
   return (
@@ -87,38 +119,19 @@ function App() {
         >
           <div className="ribbon">🎂</div>
 
-          {!isUnlocked ? (
-            <div className="lock-screen">
-              <p className="lock-text">Enter the secret password to read your message...</p>
-              <form onSubmit={handleUnlock} className="password-form">
-                <input
-                  type="password"
-                  value={passwordInput}
-                  onChange={(e) => {
-                    setPasswordInput(e.target.value)
-                    setError(false)
-                  }}
-                  placeholder="Password..."
-                  className={error ? 'input-error' : ''}
-                />
-                <button type="submit">Unlock 🗝️</button>
-              </form>
-            </div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, filter: 'blur(0px)' }}
-              transition={{ duration: 0.8 }}
-            >
-              <p>
-                Happy Birthday Zeynep! <br /><br />
-                You are truly the sweetest person I have ever met! Wishing you a wonderful life and a bright future ahead. I hope you achieve all your goals and everything you dream of.
-              </p>
-              <p style={{ fontFamily: 'var(--font-script)', fontSize: '2rem', marginTop: '1rem' }}>
-                Yours, <br /> Navjit
-              </p>
-            </motion.div>
-          )}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <p>
+              Happy Birthday Zeynep! <br /><br />
+              You are truly the sweetest person I have ever met! Wishing you a wonderful life and a bright future ahead. I hope you achieve all your goals and everything you dream of.
+            </p>
+            <p style={{ fontFamily: 'var(--font-script)', fontSize: '2rem', marginTop: '1rem' }}>
+              Yours, <br /> Navjit
+            </p>
+          </motion.div>
         </motion.div>
 
       </div>
