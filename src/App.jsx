@@ -100,13 +100,13 @@ function App() {
           transition={{ duration: 1, delay: 0.5 }}
         >
           <div className="polaroid">
-            <img src="/images/zeynep1.png" alt="Zeynep 1" />
+            <img src="images/zeynep1.png" alt="Zeynep 1" />
           </div>
           <div className="polaroid">
-            <img src="/images/zeynep2.jpg" alt="Zeynep 2" />
+            <img src="images/zeynep2.jpg" alt="Zeynep 2" />
           </div>
           <div className="polaroid">
-            <img src="/images/zeynep3.png" alt="Zeynep 3" />
+            <img src="images/zeynep3.png" alt="Zeynep 3" />
           </div>
         </motion.div>
 
