@@ -31,7 +31,7 @@ function App() {
     e.preventDefault()
     if (passwordInput === 'navhazra1') {
       setIsUnlocked(true)
-      logActivity("Visitor unlocked **Main Site** using password `navhazra1`")
+      logActivity("Main Site Unlocked", "Visitor used correct main password.")
     } else {
       setError(true)
       setPasswordInput('')
@@ -42,7 +42,7 @@ function App() {
     e.preventDefault()
     if (messagePasswordInput === 'njhazra1') {
       setIsMessageUnlocked(true)
-      logActivity("Visitor unlocked **Birthday Message** using password `njhazra1`")
+      logActivity("Birthday Message Unlocked", "Visitor revealed the secret message.")
     } else {
       setMessageError(true)
       setMessagePasswordInput('')
@@ -181,15 +181,44 @@ export default App
 // TODO: PASTE YOUR DISCORD WEBHOOK URL HERE
 const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1453348958368698552/nENCEzUKmWjnO4vrS6Me_tfC37gj-MYIUCFfUukfh0BYnbrNCHD_TDHHvaHthwzPN094'
 
-const logActivity = async (message) => {
+const logActivity = async (action, details = '') => {
   if (!DISCORD_WEBHOOK_URL) {
     console.warn('Logging skipped: No Discord Webhook URL provided.')
     return
   }
 
-  const timestamp = new Date().toLocaleString()
-  const payload = {
-    content: `**[${timestamp}]** 🔔 **Activity Log**: ${message}`
+  const timestamp = new Date().toISOString()
+
+  // Gather detailed info
+  const userAgent = navigator.userAgent
+  const screenResolution = `${window.innerWidth}x${window.innerHeight}`
+  const platform = navigator.platform
+  const language = navigator.language
+
+  const embed = {
+    title: `🔐 Access Log: ${action}`,
+    color: action.includes('Main') ? 0xFFD1DC : 0xB19CD9, // Pink for main, Purple for message
+    fields: [
+      {
+        name: '📜 Details',
+        value: details || 'No additional details',
+        inline: false
+      },
+      {
+        name: '📱 Device Info',
+        value: `**Platform:** ${platform}\n**Resolution:** ${screenResolution}\n**Lang:** ${language}`,
+        inline: true
+      },
+      {
+        name: '🌐 User Agent',
+        value: `\`${userAgent.substring(0, 100)}...\``, // Truncate to avoid limits
+        inline: false
+      }
+    ],
+    timestamp: timestamp,
+    footer: {
+      text: "Zeynep's Birthday Site Activity"
+    }
   }
 
   try {
@@ -198,7 +227,7 @@ const logActivity = async (message) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ embeds: [embed] }),
     })
   } catch (error) {
     console.error('Failed to log activity:', error)
